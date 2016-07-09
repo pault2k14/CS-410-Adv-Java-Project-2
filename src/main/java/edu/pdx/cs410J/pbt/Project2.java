@@ -2,6 +2,7 @@ package main.java.edu.pdx.cs410J.pbt;
 
 import edu.pdx.cs410J.AbstractAppointmentBook;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,6 +20,17 @@ public class Project2 {
 
   public static void main(String[] args) {
 
+      AppointmentBook appointmentBook = new AppointmentBook("Paul");
+      TextDumper dumper = new TextDumper("PaulApptBook01");
+
+      try {
+          dumper.dump(appointmentBook);
+      }
+      catch(IOException e) {
+          System.err.println("IOException!");
+      }
+
+      /*
       Class c = AbstractAppointmentBook.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
 
       AppointmentBook appointmentBook = null;
@@ -151,6 +163,7 @@ public class Project2 {
       }
 
       System.exit(1);
+      */
   }
 
 }

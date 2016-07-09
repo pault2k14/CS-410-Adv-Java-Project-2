@@ -14,8 +14,8 @@ import java.util.Collection;
  */
 public class AppointmentBook extends AbstractAppointmentBook {
 
-    String owner;
-    ArrayList<AbstractAppointment> appointments;
+    private String owner;
+    private ArrayList<AbstractAppointment> appointments;
 
     /**
      * Instantiates a new AppointmentBook object.
