@@ -1,15 +1,10 @@
-package main.java.edu.pdx.cs410J.pbt;
+package edu.pdx.cs410J.pbt;
 
 import edu.pdx.cs410J.AbstractAppointment;
-import edu.pdx.cs410J.AbstractAppointmentBook;
 import edu.pdx.cs410J.ParserException;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 /**
  * The main class for the CS410J appointment book Project

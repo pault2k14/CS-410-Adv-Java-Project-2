@@ -1,4 +1,4 @@
-package main.java.edu.pdx.cs410J.pbt;
+package edu.pdx.cs410J.pbt;
 
 import edu.pdx.cs410J.AbstractAppointment;
 import edu.pdx.cs410J.AbstractAppointmentBook;
