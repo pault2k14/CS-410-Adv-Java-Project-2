@@ -13,14 +13,27 @@ import java.util.Date;
 /**
  * The main class for the CS410J appointment book Project
  * Performs parsing and error checking of the user inputted command line
- * options and arguments, upon successful parsing, it will create a
- * new appointment book and enter the user's appointment into it. Will optionally
- * print the appointment for the user if they use the -print command line
- * option or display a read me to the user if they use the -README option.
+ * options and arguments, upon successful parsing, it will optionally read in
+ * an appoinment book from a file, if the -textFile option is specified and the fileexists,
+ * if it does not exist, the file will be created. If the file existed and was a valid
+ * appointment book the program will add the appointment specified on the command line to the
+ * appointment book, and save it back to the appointment book file. If the appointment book
+ * file was newly created, the program will instead create a new appointment book and enter the
+ * user's appointment specified from the command line into it, and save the appointment book to
+ * the new file. It will optionally print the appointment for the user if they use the -print
+ * command line option or display a read me to the user if they use the -README option.
  *
  */
 public class Project2 {
 
+    /**
+     * Parses command line arguments and options, as well as specifying
+     * when a appointment book should be read from or written to, and
+     * builds appointment book and appointment objects.
+     *
+     * @param args - array of strings containing the arguments for
+     *             creating an appointment, and program options.
+     */
   public static void main(String[] args) {
 
       Class c = AbstractAppointmentBook.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
@@ -37,8 +50,14 @@ public class Project2 {
       boolean printAppointment = false;
 
       // Look through the command line arugments to see if
-      // -README or -print options were provided by the user.
+      // -README, -print, or -textFile options were provided by the user.
       for(int i = 0; i < args.length; ++i) {
+
+          // If an unknown option is passed exit gracefully.
+          if(args[i].startsWith("-") && (!args[i].equals("-README")) && (!args[i].equals("-print")) && (!args[i].equals("-textFile"))) {
+              System.err.println("Bad command line option: " + args[i].toString());
+              System.exit(0);
+          }
 
           if(args[i].equals("-README")) {
               String readme = "Paul Thompson - CS 410J Project 1\n" +
@@ -61,6 +80,8 @@ public class Project2 {
               System.exit(1);
           }
 
+          // Check if a file was specified for the appointment book
+          // if it was save the file name.
           if(args[i].equals("-textFile")) {
               expectedArgs += 2;
               firstAppointmentArg += 2;
@@ -93,6 +114,8 @@ public class Project2 {
           System.exit(0);
       }
 
+      // If a text file was specified, attempt
+      // to parse the appointments in that file.
       if(appointmentBookFileName != null) {
 
           parser = new TextParser(appointmentBookFileName);
@@ -176,6 +199,9 @@ public class Project2 {
           appointmentBook = new AppointmentBook(newOwner);
       }
 
+      // Check if the owner of the specified appointment book
+      // file is the same as the owner of the appointment specified
+      // on the command line.
       if(!appointmentBook.getOwnerName().equals(newOwner)) {
           System.err.println("Specified owner name and appointment book owner name do not match!");
           System.exit(0);
@@ -195,6 +221,8 @@ public class Project2 {
           System.out.println(appointment.toString());
       }
 
+      // if a text file was specified, save the appointment book
+      // to that file.
       if(appointmentBookFileName != null) {
 
           dumper = new TextDumper(appointmentBookFileName);

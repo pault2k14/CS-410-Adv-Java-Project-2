@@ -22,12 +22,21 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Created by Paul on 7/7/2016.
+ * Writes the contents of an AbstractAppointmentBook to a text file
+ * in XML format. It will overwrite the specified file. If the file
+ * is unable to be written to an IOException will be thrown
+ * by the dump function.
  */
 public class TextDumper implements edu.pdx.cs410J.AppointmentBookDumper {
 
     private String fileName = null;
 
+    /**
+     * Constructor that accepts the name of a file that should have
+     * an appointment book saved to it in XML format.
+     * @param newFileName - file name to have an appointment book written
+     *                    to it in XML format.
+     */
     public TextDumper(String newFileName) {
         this.fileName = newFileName;
     }
@@ -39,6 +48,7 @@ public class TextDumper implements edu.pdx.cs410J.AppointmentBookDumper {
         File dir = new File(".");
         File dumpFile = new File(dir.getCanonicalPath() + File.separator + this.fileName);
 
+        // Setup framework for writing XML to the specified file.
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
         try {
@@ -48,6 +58,7 @@ public class TextDumper implements edu.pdx.cs410J.AppointmentBookDumper {
             System.err.println("ParserConfigurationException!");
         }
 
+        // Begin building a new XML document.
         Document document = documentBuilder.newDocument();
         Element appointmentBookRoot = document.createElement("appointmentBook");
         document.appendChild(appointmentBookRoot);
@@ -102,19 +113,6 @@ public class TextDumper implements edu.pdx.cs410J.AppointmentBookDumper {
         catch(TransformerException e) {
             System.err.println("TransformerException!");
         }
-
-        /*
-        <appointmentBook>
-                <owner> </owner>
-                <appointments>
-                    <appointment>
-                        <beginTime> </beginTime>
-                        <endTime> </endTime>
-                        <description> </description>
-                    </appointment>
-                </appointments>
-        </appointmentBook>
-        */
     }
 
 }
