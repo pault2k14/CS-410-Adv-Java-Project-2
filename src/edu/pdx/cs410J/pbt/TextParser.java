@@ -29,6 +29,11 @@ public class TextParser implements edu.pdx.cs410J.AppointmentBookParser {
 
     public AbstractAppointmentBook parse() throws ParserException {
 
+        // ************************
+        // Add handling of relative path including directories.
+        // ************************
+
+
         DocumentBuilder documentBuilder = null;
         Transformer transformer = null;
         File dir = new File(".");
@@ -40,7 +45,7 @@ public class TextParser implements edu.pdx.cs410J.AppointmentBookParser {
 
             // Handle case where appointment book does not exist at all.
             if(!parseFile.exists()) {
-                return new AppointmentBook("");
+                return new AppointmentBook("newbook");
             }
 
             if(parseFile.isDirectory()) {

@@ -23,16 +23,6 @@ public class Project2 {
 
   public static void main(String[] args) {
 
-      /*
-      AppointmentBook appointmentBook = new AppointmentBook("Paul");
-      Appointment appnt = new Appointment("Trip to vegas", "2016/10/01 13:30", "2016/10/08 8:00");
-      appointmentBook.addAppointment(appnt);
-
-
-
-
-      */
-
       Class c = AbstractAppointmentBook.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
 
       AppointmentBook appointmentBook = null;
@@ -182,7 +172,7 @@ public class Project2 {
       }
 
       // Magic value telling us that this is a newly created appointment book.
-      if(appointmentBook.getOwnerName().equals("")) {
+      if(appointmentBook.getOwnerName().equals("newbook")) {
           appointmentBook = new AppointmentBook(newOwner);
       }
 
