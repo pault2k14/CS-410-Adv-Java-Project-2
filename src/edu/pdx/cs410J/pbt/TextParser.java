@@ -20,6 +20,9 @@ import java.io.IOException;
  */
 public class TextParser implements edu.pdx.cs410J.AppointmentBookParser {
 
+    // **************************************************
+    // Add check for null file and creation of that file.
+    // **************************************************
     private String fileName;
 
     public TextParser(String newFileName) {
@@ -92,30 +95,6 @@ public class TextParser implements edu.pdx.cs410J.AppointmentBookParser {
                 }
             }
         }
-
-
-
-        // for(int i = 0; i < nodes.getLength(); ++i) {
-
-            // Node node = nodes.item(i);
-            // System.out.println(nodes.item(i).getTextContent().toString());
-
-            // if(node.getNodeType() == Node.ELEMENT_NODE) {
-
-                // Element e = (Element) node;
-
-                // System.out.println("Owner is: " + element.getElementsByTagName("owner").item(0).getTextContent() );
-
-            // }
-        // }
-        // Element owner = document.getElementsByTagName("owner");
-        // System.out.println("owner is: " + owner.getTextContent());
-
-        // AppointmentBook appointmentBook = new AppointmentBook();
-
-
-
-
 
         return appointmentBook;
     }

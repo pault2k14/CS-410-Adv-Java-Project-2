@@ -1,10 +1,14 @@
 package edu.pdx.cs410J.pbt;
 
 import edu.pdx.cs410J.AbstractAppointment;
+import edu.pdx.cs410J.AbstractAppointmentBook;
 import edu.pdx.cs410J.ParserException;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Collection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * The main class for the CS410J appointment book Project
@@ -19,39 +23,23 @@ public class Project2 {
 
   public static void main(String[] args) {
 
+      /*
       AppointmentBook appointmentBook = new AppointmentBook("Paul");
       Appointment appnt = new Appointment("Trip to vegas", "2016/10/01 13:30", "2016/10/08 8:00");
       appointmentBook.addAppointment(appnt);
-      TextDumper dumper = new TextDumper("PaulApptBook01");
-      TextParser parser = new TextParser("PaulApptBook01");
-      AppointmentBook retrievedAppointmentBook = null;
-
-      try {
-          dumper.dump(appointmentBook);
-      }
-      catch(IOException e) {
-          System.err.println("IOException!");
-      }
 
 
-      try {
-          retrievedAppointmentBook = (AppointmentBook) parser.parse();
-      }
-      catch(ParserException e) {
-          System.err.println("Parse exception!");
-      }
 
-      Collection<AbstractAppointment> appointments = retrievedAppointmentBook.getAppointments();
 
-      for(AbstractAppointment appointment: appointments) {
-          System.out.println(appointment.toString());
-      }
+      */
 
-      /*
       Class c = AbstractAppointmentBook.class;  // Refer to one of Dave's classes so that we can be sure it is on the classpath
 
       AppointmentBook appointmentBook = null;
       Appointment appointment = null;
+      TextDumper dumper = null;
+      TextParser parser = null;
+      String appointmentBookFileName = null;
       Date beginDate = null;
       Date endDate = null;
       int expectedArgs = 6;
@@ -60,14 +48,15 @@ public class Project2 {
 
       // Look through the command line arugments to see if
       // -README or -print options were provided by the user.
-      for(String arg : args) {
+      for(int i = 0; i < args.length; ++i) {
 
-          if(arg.equals("-README")) {
+          if(args[i].equals("-README")) {
               String readme = "Paul Thompson - CS 410J Project 1\n" +
               "This project allows the user to create an appointment book and an appointment\n" +
               "that will be placed into the appointment book. The user can optionally print out the newly created\n" +
               "appoint. The program supports the following optional command line arguments\n" +
               "and should be specified first if used:\n" +
+              "-textFile file Where to read/write the appointment book.\n" +
               "-print         Prints a description of the new appointment.\n" +
               "-README        Prints a this README and exits.\n" +
               "Then command line appointment arguments should be placed in this order\n" +
@@ -82,11 +71,20 @@ public class Project2 {
               System.exit(1);
           }
 
-          if(arg.equals("-print")) {
+          if(args[i].equals("-textFile")) {
+              expectedArgs += 2;
+              firstAppointmentArg += 2;
 
-              expectedArgs = expectedArgs + 1;
+              if(i + 1 < args.length) {
+                  appointmentBookFileName = args[i + 1];
+              }
+          }
+
+          if(args[i].equals("-print")) {
+
+              expectedArgs += 1;
               printAppointment = true;
-              firstAppointmentArg = 1;
+              firstAppointmentArg += 1;
           }
       }
 
@@ -103,6 +101,18 @@ public class Project2 {
 
           System.err.println("Extraneous command line arguments");
           System.exit(0);
+      }
+
+      if(appointmentBookFileName != null) {
+
+          parser = new TextParser(appointmentBookFileName);
+
+          try {
+              appointmentBook = (AppointmentBook) parser.parse();
+          }
+          catch(ParserException e) {
+              System.err.println("Parse exception!");
+          }
       }
 
       String newOwner = args[firstAppointmentArg + 0];
@@ -171,7 +181,11 @@ public class Project2 {
 
       // Create a new appointment book and appointment, and add
       // that appointment to the appointment book.
-      appointmentBook = new AppointmentBook(newOwner);
+
+      if(appointmentBook == null) {
+          appointmentBook = new AppointmentBook(newOwner);
+      }
+
       appointment = new Appointment(newDescription, beginDate.toString(), endDate.toString());
       appointmentBook.addAppointment(appointment);
 
@@ -179,8 +193,19 @@ public class Project2 {
           System.out.println(appointment.toString());
       }
 
+      if(appointmentBookFileName != null) {
+
+          dumper = new TextDumper(appointmentBookFileName);
+
+          try {
+              dumper.dump(appointmentBook);
+          }
+          catch(IOException e) {
+              System.err.println("IOException!");
+          }
+      }
+
       System.exit(1);
-      */
   }
 
 }
