@@ -14,15 +14,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 
 /**
  * Created by Paul on 7/7/2016.
  */
 public class TextParser implements edu.pdx.cs410J.AppointmentBookParser {
 
-    // **************************************************
-    // Add check for null file and creation of that file.
-    // **************************************************
     private String fileName;
 
     public TextParser(String newFileName) {
@@ -39,9 +37,19 @@ public class TextParser implements edu.pdx.cs410J.AppointmentBookParser {
 
         try {
             parseFile = new File(dir.getCanonicalPath() + File.separator + this.fileName);
+
+            // Handle case where appointment book does not exist at all.
+            if(!parseFile.exists()) {
+                return new AppointmentBook("");
+            }
+
+            if(parseFile.isDirectory()) {
+                throw new ParserException("Directory specified as parse file!");
+            }
+
         }
         catch(IOException e) {
-            System.out.println("IOException!");
+            throw new ParserException("Unable to use parse file!");
         }
 
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -50,14 +58,14 @@ public class TextParser implements edu.pdx.cs410J.AppointmentBookParser {
             documentBuilder =   documentBuilderFactory.newDocumentBuilder();
         }
         catch (ParserConfigurationException e) {
-            System.err.println("ParserConfigurationException!");
+            throw new ParserException("Unable to use parse file!");
         }
 
         try {
             document = documentBuilder.parse(parseFile);
         }
         catch(SAXException|IOException e) {
-            System.err.println("SAXException or IOException!");
+            throw new ParserException("Unable to read parse file!");
         }
 
         NodeList nodes = document.getElementsByTagName("appointmentBook");

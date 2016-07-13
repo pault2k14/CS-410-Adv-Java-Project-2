@@ -26,10 +26,6 @@ import org.w3c.dom.Element;
  */
 public class TextDumper implements edu.pdx.cs410J.AppointmentBookDumper {
 
-    // **************************************************
-    // Add check for null file and creation of that file.
-    // **************************************************
-
     private String fileName = null;
 
     public TextDumper(String newFileName) {

@@ -111,8 +111,10 @@ public class Project2 {
               appointmentBook = (AppointmentBook) parser.parse();
           }
           catch(ParserException e) {
-              System.err.println("Parse exception!");
+              System.err.println("Unable to read appointment book text file!");
+              System.exit(0);
           }
+
       }
 
       String newOwner = args[firstAppointmentArg + 0];
@@ -179,9 +181,19 @@ public class Project2 {
           System.exit(0);
       }
 
+      // Magic value telling us that this is a newly created appointment book.
+      if(appointmentBook.getOwnerName().equals("")) {
+          appointmentBook = new AppointmentBook(newOwner);
+      }
+
+      if(!appointmentBook.getOwnerName().equals(newOwner)) {
+          System.err.println("Specified owner name and appointment book owner name do not match!");
+          System.exit(0);
+      }
+
+
       // Create a new appointment book and appointment, and add
       // that appointment to the appointment book.
-
       if(appointmentBook == null) {
           appointmentBook = new AppointmentBook(newOwner);
       }
@@ -201,7 +213,8 @@ public class Project2 {
               dumper.dump(appointmentBook);
           }
           catch(IOException e) {
-              System.err.println("IOException!");
+              System.err.println("Unable to write to appointment book text file!");
+              System.exit(0);
           }
       }
 
