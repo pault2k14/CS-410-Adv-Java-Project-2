@@ -41,6 +41,15 @@ public class TextDumper implements edu.pdx.cs410J.AppointmentBookDumper {
         this.fileName = newFileName;
     }
 
+
+    /**
+     * Writes AbstractAppointmentBook object to the specified text file
+     * in XML format. Throws IOException if unable to write the XML contents
+     * to the specified file.
+     * @param var1 - An AbstractAppointmentBook to be written to the specified file.
+     * @throws IOException - Thrown when there is a problem writing appointment book XML
+     *                     to the specified file.
+     */
     public void dump(AbstractAppointmentBook var1) throws IOException {
 
         DocumentBuilder documentBuilder = null;
@@ -55,7 +64,7 @@ public class TextDumper implements edu.pdx.cs410J.AppointmentBookDumper {
             documentBuilder =   documentBuilderFactory.newDocumentBuilder();
         }
         catch (ParserConfigurationException e) {
-            System.err.println("ParserConfigurationException!");
+            System.err.println("Unable to read XML from appointment book file!");
         }
 
         // Begin building a new XML document.
@@ -63,14 +72,17 @@ public class TextDumper implements edu.pdx.cs410J.AppointmentBookDumper {
         Element appointmentBookRoot = document.createElement("appointmentBook");
         document.appendChild(appointmentBookRoot);
 
+        // create the owner element.
         Element owner = document.createElement("owner");
         owner.appendChild(document.createTextNode(var1.getOwnerName()));
         appointmentBookRoot.appendChild(owner);
 
+        // Create the appointments element
         Element appointmentsElement = document.createElement("appointments");
 
         Collection<AbstractAppointment> appointments = var1.getAppointments();
 
+        // Create each appointment.
         for(AbstractAppointment appointment1: appointments) {
             Element appointmentElement = document.createElement("appointment");
 
@@ -87,8 +99,6 @@ public class TextDumper implements edu.pdx.cs410J.AppointmentBookDumper {
             appointmentElement.appendChild(endTime);
 
             appointmentsElement.appendChild(appointmentElement);
-
-
         }
 
         appointmentBookRoot.appendChild(appointmentsElement);
@@ -99,19 +109,22 @@ public class TextDumper implements edu.pdx.cs410J.AppointmentBookDumper {
             transformer = transformerFactory.newTransformer();
         }
         catch (TransformerConfigurationException e) {
-            System.err.println("TransformerConfigurationException");
+            System.err.println("Problem with application: Transformer");
         }
 
+        // Set the newly created document as our source.
         DOMSource domSource = new DOMSource(document);
 
+        // Set the specified file as a target.
         StreamResult streamResult = new StreamResult(dumpFile);
 
+        // Write document to file.
         try{
             transformer.transform(domSource, streamResult);
         }
 
         catch(TransformerException e) {
-            System.err.println("TransformerException!");
+            System.err.println("Unable to write XML to text file!");
         }
     }
 

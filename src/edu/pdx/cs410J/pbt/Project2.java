@@ -195,14 +195,14 @@ public class Project2 {
       }
 
       // Magic value telling us that this is a newly created appointment book.
-      if(appointmentBook.getOwnerName().equals("newbook")) {
+      if(appointmentBook != null && appointmentBook.getOwnerName().equals("newbook")) {
           appointmentBook = new AppointmentBook(newOwner);
       }
 
       // Check if the owner of the specified appointment book
       // file is the same as the owner of the appointment specified
       // on the command line.
-      if(!appointmentBook.getOwnerName().equals(newOwner)) {
+      if(appointment != null && !appointmentBook.getOwnerName().equals(newOwner)) {
           System.err.println("Specified owner name and appointment book owner name do not match!");
           System.exit(0);
       }
